@@ -20,6 +20,7 @@ public class CustomerController {
 	public String showCust(ModelMap model)
 	{
 		model.addAttribute("cust", new CustomerEntity());
+		System.out.println("Test");
 		return "customer";
 	}
 	
