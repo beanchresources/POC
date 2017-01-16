@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans     
+		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-4.0.xsd
@@ -15,25 +14,21 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.poc" />
-	<context:property-placeholder location="classpath*:poc.properties" />
+	<!--<context:property-placeholder location="classpath*:poc.properties" />-->
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler />
-	<tx:annotation-driven/> 
-	<tx:annotation-driven transaction-manager="transactionManager"/> 
-	
+	<tx:annotation-driven/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+
 	<bean class ="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
-	
-	
-	<bean id="properties"
-		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="locations">
-			<list>
-				<value>classpath*:poc.properties</value>
-			</list>
-		</property>
+
+
+	<bean id="dbProperties"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:config/poc.properties" />
 	</bean>
-	
-	
+
+
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${dbDriverClassName}" />
@@ -41,22 +36,24 @@
 		<property name="username" value="${dbUsername}" />
 		<property name="password" value="${dbPassword}" />
 	</bean>
-	
-	
+
+
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation">
-		<value>classpath:hibernate.cfg.xml</value>
+		<value>classpath:config/hibernate.cfg.xml</value>
 		</property>
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>-->
+				<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
 				<prop key="hibernate.show_sql">${showHQL}</prop>
 			</props>
 		</property>
 	</bean>
-	
+
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -68,8 +65,8 @@
 		<tx:method name="*" />
 	    </tx:attributes>
 	</tx:advice>
-	   
-	
 
-		
+
+
+
 </beans>

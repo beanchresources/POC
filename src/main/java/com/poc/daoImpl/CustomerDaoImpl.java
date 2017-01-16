@@ -17,7 +17,8 @@ public class CustomerDaoImpl implements CustomerDao {
 		System.out.println("sessionFactory="+sessionfactory);
 		System.out.println("Data Inserted");
 		System.out.println("In daoImpl:"+cust);
-		int a=(Integer)sessionfactory.openSession().save(cust);
+		/*System.out.println("sf: "+sessionfactory.openSession());*/
+		int a=(Integer)sessionfactory.getCurrentSession().save(cust);
 		System.out.println("end a="+a);
 	}
 
