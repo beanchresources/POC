@@ -1,1 +1,12 @@
-/target/
+*.iml
+.idea/*
+target/*
+Logs/*
+*.project
+*.classpath
+*.settings
+.idea/compiler.xml
+.idea/inspectionProfiles/
+.idea/libraries/
+.idea/misc.xml
+.idea/workspace.xml
